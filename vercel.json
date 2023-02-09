@@ -4,7 +4,6 @@
         {
             "src": "./bin/www",
             "use": "@vercel/node"
-
         }
     ],
     "routes": [
