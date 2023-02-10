@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define("user", {
+  const user = sequelize.define("user", {
     id: {
       type: Sequelize.BIGINT,
       primaryKey: true,
@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
       allowEmpty: false,
       len: [6, 1024],
     },
-    isVerified:{
+    isVerified: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
       allowEmpty: false,
@@ -38,5 +38,5 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  return User;
+  return user;
 };

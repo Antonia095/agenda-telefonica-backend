@@ -1,21 +1,21 @@
 module.exports = (sequelize, Sequelize) => {
-  const Contato = sequelize.define('contato', {
+  const contato = sequelize.define("contato", {
     id: {
-        type: Sequelize.BIGINT,
-        primaryKey: true,
-        autoIncrement: true
+      type: Sequelize.BIGINT,
+      primaryKey: true,
+      autoIncrement: true,
     },
     nome: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        allowEmpty: false
+      type: Sequelize.STRING,
+      allowNull: false,
+      allowEmpty: false,
     },
     telefone: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        allowEmpty: false
-    }
+      type: Sequelize.STRING,
+      allowNull: false,
+      allowEmpty: false,
+    },
   });
 
-  return Contato;
+  return contato;
 };

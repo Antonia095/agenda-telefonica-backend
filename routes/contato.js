@@ -48,12 +48,12 @@
  *           description: Senha do usuário.
  *           example: p7E35*#M#H&5
  */
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const verify = require('../utils/verifyToken');
+const verify = require("../utils/verifyToken");
 
 // Importa o controller
-const contatoController = require('../controllers/contatoController');
+const contatoController = require("../controllers/contatoController");
 
 /**
  * @swagger
@@ -73,7 +73,7 @@ const contatoController = require('../controllers/contatoController');
  *                   items:
  *                     $ref: '#/components/schemas/Contato'
  */
-router.get('/', contatoController.contatosList);
+router.get("/", contatoController.contatosList);
 
 /**
  * @swagger
@@ -98,7 +98,7 @@ router.get('/', contatoController.contatosList);
  *                 contato:
  *                   $ref: '#/components/schemas/Contato'
  */
-router.get('/:id', contatoController.contatosRead);
+router.get("/:id", contatoController.contatosRead);
 
 /**
  * @swagger
@@ -127,7 +127,7 @@ router.get('/:id', contatoController.contatosRead);
  *                 contato:
  *                   $ref: '#/components/schemas/Contato'
  */
-router.post('/register', verify, contatoController.contatosCreate);
+router.post("/register", verify, contatoController.contatosCreate);
 
 /**
  * @swagger
@@ -157,7 +157,7 @@ router.post('/register', verify, contatoController.contatosCreate);
  *       204:
  *         description: Contato atualizado.
  */
-router.patch('/:id', verify, contatoController.contatosUpdate);
+router.patch("/:id", verify, contatoController.contatosUpdate);
 
 /**
  * @swagger
@@ -180,6 +180,6 @@ router.patch('/:id', verify, contatoController.contatosUpdate);
  *       204:
  *         description: Contato apagado.
  */
-router.delete('/:id', verify, contatoController.contatosDelete);
+router.delete("/:id", verify, contatoController.contatosDelete);
 
 module.exports = router;

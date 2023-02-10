@@ -1,5 +1,5 @@
 const db = require("../config/db.config");
-const User = db.user;
+const user = db.user;
 const sendgrid = require("@sendgrid/mail");
 
 const bcrypt = require("bcryptjs");
@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 exports.userCreate = async (req, res) => {
   let user = null;
   try {
-    user = await User.findOne({
+    user = await user.findOne({
       where: {
         email: req.body.email,
       },
@@ -17,19 +17,18 @@ exports.userCreate = async (req, res) => {
   } catch (err) {
     res.json({ message: err.message });
   }
-console.log(user==null)
+  console.log(user == null);
   if (user != null) {
     return res.status(400).json({ message: "E-mail já cadastrado." });
   }
 
   try {
-
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const newUser = Object.assign({}, req.body);
     newUser.password = hashedPassword;
 
-    user = await User.create(newUser);
+    user = await user.create(newUser);
     const token = jwt.sign({ userId: user.id }, process.env.TOKEN_SECRET, {
       expiresIn: "1h",
     });
@@ -61,7 +60,7 @@ exports.userConfirmation = async (req, res) => {
   try {
     const { userId } = jwt.verify(token, process.env.TOKEN_SECRET);
 
-    await User.update(
+    await user.update(
       { isVerified: true },
       {
         where: {
@@ -80,7 +79,7 @@ exports.userConfirmation = async (req, res) => {
 exports.userLogin = async (req, res) => {
   let user = null;
   try {
-    user = await User.findOne({
+    user = await user.findOne({
       where: {
         email: req.body.email,
       },
@@ -93,7 +92,7 @@ exports.userLogin = async (req, res) => {
     return res.status(400).json({ message: message });
   }
   if (!user.isVerified) {
-    console.log("entrou aqui")
+    console.log("entrou aqui");
     return res.status(400).json({ message: "Email não confirmado." });
   }
   const validPassword = await bcrypt.compare(req.body.password, user.password);
@@ -108,7 +107,7 @@ exports.userLogin = async (req, res) => {
 exports.deleteUsersNonVerified = async () => {
   const dateNow = new Date();
 
-  const users = await User.findAll({
+  const users = await user.findAll({
     where: {
       isVerified: false,
     },
@@ -122,7 +121,7 @@ exports.deleteUsersNonVerified = async () => {
         dateNow.getHours() > userCreatedDate.getHours() &&
         dateNow.getMinutes() > userCreatedDate.getMinutes()
       ) {
-        await User.destroy({
+        await user.destroy({
           where: {
             id: user.id,
           },
@@ -136,7 +135,7 @@ exports.deleteUsersNonVerified = async () => {
 
 exports.usersList = async (req, res) => {
   try {
-    const users = await User.findAll({
+    const users = await user.findAll({
       attributes: ["id", "username", "email", "isVerified"],
     });
 
@@ -148,26 +147,26 @@ exports.usersList = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const user = await User.update(req.body, {
+    const user = await user.update(req.body, {
       where: {
-        id: req.params.id
-      }
+        id: req.params.id,
+      },
     });
-    res.status(204).send({user: user});
-  } catch(err) {
+    res.status(204).send({ user: user });
+  } catch (err) {
     res.send({ message: err.message });
   }
 };
 
 exports.deleteUser = async (req, res) => {
   try {
-    const user = await User.destroy({
+    const user = await user.destroy({
       where: {
-          id: req.params.id
-      }
+        id: req.params.id,
+      },
     });
-    res.status(204).send({user: user});
-  } catch(err) {
+    res.status(204).send({ user: user });
+  } catch (err) {
     res.send({ message: err.message });
   }
 };
